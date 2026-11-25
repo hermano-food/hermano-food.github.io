@@ -43,9 +43,9 @@ let products = [
  {id:26,name:"Royale Mini Hermano",cat:"POUTCHI",price:17,desc:"La royale en format mini.",img:"https://images.unsplash.com/photo-1553909489-cd47e0ef937f?auto=format&fit=crop&w=800&q=80"},
  {id:27,name:"Royale Maxi Habib",cat:"POUTCHI",price:22,desc:"La royale en grand format.",img:"https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80"},
  {id:28,name:"Mhiricha",cat:"MHIRICHA",price:7,desc:"La petite touche qui régale.",img:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80"},
- {id:29,name:"Plat Frites",cat:"SUPPLÉMENTS",price:5,desc:"Frites dorées et croustillantes.",img:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80"},
- {id:30,name:"Soda",cat:"SUPPLÉMENTS",price:5,desc:"Boisson fraîche.",img:"https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=800&q=80"},
- {id:31,name:"Fromage",cat:"SUPPLÉMENTS",price:1,desc:"Supplément fromage.",img:"https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80"},
+ {id:34,name:"Plat de frites",cat:"SUPPLÉMENTS",price:5,desc:"Frites dorées et croustillantes.",img:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80"},
+ {id:35,name:"Soda",cat:"SUPPLÉMENTS",price:5,desc:"Boisson fraîche.",img:"https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=800&q=80"},
+ {id:36,name:"Fromage",cat:"SUPPLÉMENTS",price:1,desc:"Supplément fromage.",img:"https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80"},
  {id:32,name:"Pizza",cat:"PIZZA",price:null,desc:"Prix et variétés à confirmer au restaurant.",img:"https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80"},
  {id:33,name:"Pasticcio",cat:"PASTICCIO",price:null,desc:"Prix et variétés à confirmer au restaurant.",img:"https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=800&q=80"}
 ];;
@@ -102,7 +102,7 @@ async function loadProductsFromSupabase(){
 
 let active="TOUT";const cart=new Map();const $=id=>document.getElementById(id);const money=n=>n+" DH";
 function menuCategories(){
- const cats=[...new Set(products.map(p=>String(p.cat||"").trim().toUpperCase()).filter(Boolean))];
+ const cats=[...new Set(products.map(p=>String(p.cat||"").trim().toUpperCase()).filter(cat=>cat&&cat!=="SUPPLÉMENTS"))];
  return cats.sort((x,y)=>{const order=["POUTCHI","TACOS"];const ix=order.indexOf(x),iy=order.indexOf(y);if(ix!==-1||iy!==-1)return (ix===-1?99:ix)-(iy===-1?99:iy);return x.localeCompare(y)});
 }
 function renderFilters(){
@@ -298,6 +298,23 @@ $("detailClose").onclick=closeProduct;$("detailBackdrop").onclick=closeProduct;d
 function add(id){const p=products.find(x=>x.id===id);if(p.price===null)return;cart.set(id,(cart.get(id)||0)+1);renderCart();openCart()}
 function change(id,d){const n=(cart.get(id)||0)+d;if(n<=0)cart.delete(id);else cart.set(id,n);renderCart()}
 function deliveryFee(){const zone=CONFIG.deliveryZones.find(item=>item.name===$("zone").value);return $("orderType").value==="Livraison"?(zone?.fee||0):0}
+function renderSupplementOptions(){
+ const host=$("supplementOptions");if(!host)return;
+ const extras=products.filter(p=>String(p.cat||"").trim().toUpperCase()==="SUPPLÉMENTS");
+ host.replaceChildren(...extras.map(p=>{
+  const quantity=cart.get(p.id)||0;
+  const row=document.createElement("div");row.className="supplement-row";
+  const info=document.createElement("div");info.className="supplement-info";
+  const name=document.createElement("strong");name.textContent=p.name;
+  const price=document.createElement("small");price.textContent=money(Number(p.price||0));
+  info.append(name,price);
+  const controls=document.createElement("div");controls.className="supplement-controls";
+  const minus=document.createElement("button");minus.type="button";minus.textContent="−";minus.disabled=quantity===0;minus.setAttribute("aria-label","Retirer "+p.name);minus.addEventListener("click",()=>change(p.id,-1));
+  const count=document.createElement("b");count.textContent=String(quantity);
+  const plus=document.createElement("button");plus.type="button";plus.textContent="+";plus.setAttribute("aria-label","Ajouter "+p.name);plus.addEventListener("click",()=>add(p.id));
+  controls.append(minus,count,plus);row.append(info,controls);return row;
+ }));
+}
 function renderCart(){
  let count=0,subtotal=0;
  const rows=[];
@@ -326,7 +343,7 @@ function renderCart(){
  const items=$("cartItems");
  if(rows.length)items.replaceChildren(...rows);
  else{const empty=document.createElement("p");empty.className="empty";empty.textContent="Ton panier est encore vide.";items.replaceChildren(empty)}
- $("grandTotal").textContent=money(subtotal+deliveryFee());
+ $("grandTotal").textContent=money(subtotal+deliveryFee());\n renderSupplementOptions();
 }
 function openCart(){$("cartPanel").classList.add("open");$("cartBackdrop").classList.add("open");$("cartPanel").setAttribute("aria-hidden","false")}
 function closeCart(){$("cartPanel").classList.remove("open");$("cartBackdrop").classList.remove("open");$("cartPanel").setAttribute("aria-hidden","true")}
