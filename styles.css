@@ -220,3 +220,6 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
  .mobile-menu-toggle{font-size:17px;padding:3px}
  .promo-instagram-button{width:100%;padding:13px 10px;font-size:10px}
 }
+
+/* PWA theme toggle */
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:38px;padding:8px 11px;border:1px solid var(--gold,#ebc22b);border-radius:8px;background:transparent;color:inherit;font-size:17px;cursor:pointer;flex:0 0 auto}
