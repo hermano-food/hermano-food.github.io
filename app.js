@@ -1,3 +1,19 @@
+const CONFIG = {
+  whatsappNumber: "21263225995",
+  instagramUsername: "casalux_03",
+  address: "Boulevard Ahmed Ahrass, Sidi Bernoussi, Casablanca, Maroc",
+  hours: { days: "7J/7", opens: "10:00", closes: "00:00" },
+  deliveryZones: [
+    { name: "Sidi Bernoussi", fee: 10 },
+    { name: "Al Azhar", fee: 15 },
+    { name: "Sidi Moumen", fee: 20 },
+    { name: "Anassi", fee: 23 },
+    { name: "Zenata", fee: 17 },
+    { name: "Al Qods", fee: 10 }
+  ],
+  promo: { startDate: "2026-11-01", endDate: "2026-12-31" }
+};
+
 let products = [
  {id:1,name:"Tacos Viande Hachée",cat:"TACOS",price:20,desc:"Généreux et savoureux.",img:"https://images.unsplash.com/photo-1551509486-0d7d5e4c3b6a?auto=format&fit=crop&w=800&q=80"},
  {id:2,name:"Tacos Nuggets",cat:"TACOS",price:25,desc:"Croustillant à chaque bouchée.",img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80"},
@@ -37,6 +53,28 @@ const localProducts = products.slice();
 const SUPABASE_URL = "https://nvaklosmrpfihrscwhwm.supabase.co";
 const SUPABASE_PUBLIC_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52YWtsb3NtcnBmaWhyc2N3aHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyOTcwMjEsImV4cCI6MjExMDg3MzAyMX0.qa_HbOfGiiuA_G-I-s6_NO8tl9tqecZU6JbG22bg4t0";
 let lastProductsSnapshot="";
+
+function applyConfig(){
+ const hoursLabel=CONFIG.hours.days+" · "+CONFIG.hours.opens+" — "+CONFIG.hours.closes;
+ const address=$("footerAddress");if(address)address.textContent=CONFIG.address;
+ const footerHours=$("footerHours");if(footerHours)footerHours.textContent="Ouvert "+hoursLabel;
+ const heroHours=$("heroHours");if(heroHours)heroHours.textContent=hoursLabel+" · SIDI BERNOUSSI";
+ const zoneSelect=$("zone");
+ if(zoneSelect)zoneSelect.replaceChildren(...CONFIG.deliveryZones.map(zone=>{
+  const option=document.createElement("option");option.value=zone.name;option.textContent=zone.name+" — "+zone.fee+" DH";return option;
+ }));
+ const zonesList=$("deliveryZoneList");
+ if(zonesList)zonesList.replaceChildren(...CONFIG.deliveryZones.map(zone=>{
+  const line=document.createElement("div"),name=document.createElement("span"),fee=document.createElement("b");
+  name.textContent=zone.name;fee.textContent=zone.fee+" DH";line.append(name,fee);return line;
+ }));
+ const links=document.querySelectorAll(".footer-actions a");
+ if(links[0])links[0].href="tel:+"+CONFIG.whatsappNumber;
+ if(links[1])links[1].href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(CONFIG.address);
+ if(links[2])links[2].href="https://wa.me/"+CONFIG.whatsappNumber;
+ if(links[3])links[3].href="https://ig.me/m/"+CONFIG.instagramUsername;
+}
+
 async function loadProductsFromSupabase(){
  try{
   const response=await fetch(SUPABASE_URL+"/rest/v1/products?select=id,name,category,description,price,image_url,is_available,promo_eligible&is_available=eq.true&order=id.asc",{
@@ -78,7 +116,7 @@ function renderProducts(){
      const heading=document.createElement("h3");heading.textContent="Ton numéro PROMO est toujours là";
      const number=document.createElement("strong");number.className="promo-reference";number.textContent=saved.code||("PROMO #"+saved.id);
      const note=document.createElement("p");note.textContent="Envoie ce numéro en message privé à HERMANO sur Instagram. Garde cette page pour retrouver ton numéro.";
-     const insta=document.createElement("a");insta.className="gold-btn full";insta.href="https://ig.me/m/casalux_03";insta.target="_blank";insta.rel="noopener";insta.textContent="Ouvrir Instagram et envoyer le numéro ↗";
+     const insta=document.createElement("a");insta.className="gold-btn full";insta.href=`https://ig.me/m/${CONFIG.instagramUsername}`;insta.target="_blank";insta.rel="noopener";insta.textContent="Ouvrir Instagram et envoyer le numéro ↗";
      const qr=document.createElement("img");qr.className="promo-qr";qr.alt="QR Code de réservation HERMANO";qr.src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data="+encodeURIComponent(new URL("admin.html?promo="+saved.id,location.href).href);
      const qrNote=document.createElement("small");qrNote.textContent="Présente ce QR à l’équipe HERMANO à ton arrivée.";
      previous.append(heading,number,note,qr,qrNote,insta);container.append(previous);
@@ -110,8 +148,10 @@ function renderProducts(){
   const prevMonth=calendar.querySelector('.promo-month-prev');
   const nextMonth=calendar.querySelector('.promo-month-next');
   const todayDate=new Date();todayDate.setHours(0,0,0,0);
-  const firstAllowedMonth=new Date(2026,10,1);
-  const lastAllowedMonth=new Date(2026,11,1);
+  const promoStart=new Date(CONFIG.promo.startDate+"T00:00:00");
+  const promoEnd=new Date(CONFIG.promo.endDate+"T00:00:00");
+  const firstAllowedMonth=new Date(promoStart.getFullYear(),promoStart.getMonth(),1);
+  const lastAllowedMonth=new Date(promoEnd.getFullYear(),promoEnd.getMonth(),1);
   let shownMonth=new Date(firstAllowedMonth);
   let bookedPromoDates=new Set();
   let availabilityLoaded=false;
@@ -154,7 +194,7 @@ function renderProducts(){
   const timeValue=form.querySelector('.promo-time-value');
   const timePanel=form.querySelector('.promo-time-panel');
   const timeSlots=form.querySelector('.promo-time-slots');
-  for(let hour=10;hour<=23;hour++){
+  for(let hour=Number(CONFIG.hours.opens.slice(0,2));hour<24;hour++){
    for(const minute of [0,30]){
     if(hour===23&&minute===30){}
     const value=String(hour).padStart(2,"0")+":"+String(minute).padStart(2,"0");
@@ -163,8 +203,8 @@ function renderProducts(){
     timeSlots.append(slot);
    }
   }
-  const midnight=document.createElement("button");midnight.type="button";midnight.className="promo-time-slot";midnight.textContent="00:00";
-  midnight.addEventListener("click",()=>{timeInput.value="00:00";timeValue.textContent="00:00";timeTrigger.classList.add("has-value");timePanel.hidden=true;timeTrigger.setAttribute("aria-expanded","false");timeSlots.querySelectorAll(".promo-time-slot").forEach(x=>x.classList.toggle("selected",x===midnight));});
+  const midnight=document.createElement("button");midnight.type="button";midnight.className="promo-time-slot";midnight.textContent=CONFIG.hours.closes;
+  midnight.addEventListener("click",()=>{timeInput.value=CONFIG.hours.closes;timeValue.textContent=CONFIG.hours.closes;timeTrigger.classList.add("has-value");timePanel.hidden=true;timeTrigger.setAttribute("aria-expanded","false");timeSlots.querySelectorAll(".promo-time-slot").forEach(x=>x.classList.toggle("selected",x===midnight));});
   timeSlots.append(midnight);
   timeTrigger.addEventListener("click",()=>{timePanel.hidden=!timePanel.hidden;timeTrigger.setAttribute("aria-expanded",String(!timePanel.hidden));});
 
@@ -174,10 +214,10 @@ function renderProducts(){
    e.preventDefault();const p=products.find(x=>x.id===Number(form.dataset.product));const data=new FormData(form);
    const time=String(data.get("time"));
    const chosenDate=String(data.get("date")||"");
-   if(!chosenDate||chosenDate<"2026-11-01"||chosenDate>"2026-12-31"){alert("Choisis une date disponible en novembre ou décembre 2026.");return;}
+   if(!chosenDate||chosenDate<CONFIG.promo.startDate||chosenDate>CONFIG.promo.endDate){alert("Choisis une date comprise entre le "+CONFIG.promo.startDate+" et le "+CONFIG.promo.endDate+".");return;}
    if(!time){alert("Choisis une heure dans les créneaux proposés.");return;}
    if(!p){alert("Choisis d’abord un produit promotionnel.");return}
-   if(time<"10:00"&&time!=="00:00"){alert("Choisis une heure entre 10:00 et 00:00.");return}
+   if(time<CONFIG.hours.opens&&time!==CONFIG.hours.closes){alert("Choisis une heure entre "+CONFIG.hours.opens+" et "+CONFIG.hours.closes+".");return}
    const submit=form.querySelector('button[type="submit"]');submit.disabled=true;submit.textContent="Enregistrement…";
    try{
     const response=await fetch(SUPABASE_URL+"/functions/v1/customer-submit",{method:"POST",headers:{apikey:SUPABASE_PUBLIC_KEY,Authorization:"Bearer "+SUPABASE_PUBLIC_KEY,"Content-Type":"application/json"},body:JSON.stringify({action:"promo",instagram_username:String(data.get("instagram")).trim().replace(/^@/,""),product_id:p.id,reservation_date:data.get("date"),reservation_time:time})});
@@ -190,7 +230,7 @@ function renderProducts(){
     const ref=document.createElement("strong");ref.className="promo-reference";ref.textContent=code;
     const copy=document.createElement("button");copy.className="gold-btn full";copy.type="button";copy.textContent="Copier mon numéro";
     copy.onclick=async()=>{try{await navigator.clipboard.writeText(code);copy.textContent="Numéro copié ✓";}catch(e){copy.textContent=code;}};
-    const contact=document.createElement("a");contact.className="gold-btn full";contact.href="https://ig.me/m/casalux_03";contact.target="_blank";contact.rel="noopener";contact.textContent="Ouvrir Instagram et envoyer le numéro ↗";
+    const contact=document.createElement("a");contact.className="gold-btn full";contact.href=`https://ig.me/m/${CONFIG.instagramUsername}`;contact.target="_blank";contact.rel="noopener";contact.textContent="Ouvrir Instagram et envoyer le numéro ↗";
     const qr=document.createElement("img");qr.className="promo-qr";qr.alt="QR Code de réservation HERMANO";qr.src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data="+encodeURIComponent(new URL("admin.html?promo="+id,location.href).href);
     const qrNote=document.createElement("small");qrNote.textContent="Présente ce QR à l’équipe HERMANO à ton arrivée.";
     const status=document.createElement("small");status.textContent="Statut : en attente de vérification par HERMANO. Le numéro seul ne confirme pas encore la promo.";
@@ -228,7 +268,7 @@ function closeProduct(){$("productDetail").classList.remove("open");$("productDe
 $("detailClose").onclick=closeProduct;$("detailBackdrop").onclick=closeProduct;document.addEventListener("keydown",e=>{if(e.key==="Escape")closeProduct()});
 function add(id){const p=products.find(x=>x.id===id);if(p.price===null)return;cart.set(id,(cart.get(id)||0)+1);renderCart();openCart()}
 function change(id,d){const n=(cart.get(id)||0)+d;if(n<=0)cart.delete(id);else cart.set(id,n);renderCart()}
-function deliveryFee(){return $("orderType").value==="Livraison"?({"Sidi Bernoussi":10,"Al Azhar":15,"Sidi Moumen":20,"Anassi":23,"Zenata":17,"Al Qods":10}[$("zone").value]||0):0}
+function deliveryFee(){const zone=CONFIG.deliveryZones.find(item=>item.name===$("zone").value);return $("orderType").value==="Livraison"?(zone?.fee||0):0}
 function renderCart(){
  let count=0,subtotal=0;
  const rows=[];
@@ -266,9 +306,10 @@ $("checkoutBtn").onclick=async()=>{if(!cart.size){alert("Ajoute au moins un arti
  const response=await fetch(SUPABASE_URL+"/functions/v1/customer-submit",{method:"POST",headers:{apikey:SUPABASE_PUBLIC_KEY,Authorization:"Bearer "+SUPABASE_PUBLIC_KEY,"Content-Type":"application/json"},body:JSON.stringify({action:"order",customer_name:name,customer_phone:phone,order_type:$("orderType").value,delivery_zone:$("orderType").value==="Livraison"?$("zone").value:null,delivery_address:$("orderType").value==="Livraison"?$("customerAddress").value:null,note:$("orderNote").value,items:[...cart.entries()].map(([product_id,quantity])=>({product_id,quantity}))})});
  const result=await response.json();if(!response.ok)throw new Error(result.error||"Erreur d'enregistrement");
  const msg=["Bonjour HERMANO FOOD !","Référence commande : "+result.order.id,"Nom : "+name,"Téléphone : "+phone,"Commande : "+$("orderType").value,...lines,"Sous-total : "+money(subtotal),$("orderType").value==="Livraison"?"Zone : "+$("zone").value:"", $("orderType").value==="Livraison"?"Adresse : "+$("customerAddress").value:"","Livraison : "+money(fee),"TOTAL : "+money(total),"Note : "+$("orderNote").value].filter(Boolean).join("\n");
- const url="https://wa.me/21263225995?text="+encodeURIComponent(msg);if(whatsapp)whatsapp.location.href=url;else alert("Commande enregistrée. Référence : "+result.order.id+" — contactez-nous sur WhatsApp.");
+ const url=`https://wa.me/${CONFIG.whatsappNumber}?text=`+encodeURIComponent(msg);if(whatsapp)whatsapp.location.href=url;else alert("Commande enregistrée. Référence : "+result.order.id+" — contactez-nous sur WhatsApp.");
  }catch(error){if(whatsapp)whatsapp.close();alert("La commande n'a pas pu être enregistrée : "+error.message);}
 };
+applyConfig();
 renderFilters();renderProducts();renderCart();
 loadProductsFromSupabase();
 let catalogueRefreshTimer=null;
