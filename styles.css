@@ -188,3 +188,35 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
  .hero-logo{width:58px;height:58px}
  .hero-brandline .eyebrow{font-size:9px;letter-spacing:2px}
 }
+
+
+/* Header quick actions: call and directions are visible immediately */
+.top-quick-actions{display:flex;align-items:center;gap:8px;margin-left:auto;margin-right:22px}
+.quick-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:39px;padding:9px 13px;border:1px solid var(--gold);border-radius:3px;color:#fff;font-size:11px;font-weight:800;white-space:nowrap;transition:background .2s,color .2s}
+.quick-action span{color:var(--gold);font-size:16px}
+.quick-action:hover{background:var(--gold);color:#111}
+.quick-action:hover span{color:#111}
+.promo-instagram-button{display:inline-flex;align-items:center;justify-content:center;gap:9px;width:fit-content;max-width:100%;padding:13px 18px;background:#ebc22b;color:#101010;border:1px solid #ebc22b;border-radius:3px;font-size:11px;font-weight:900;letter-spacing:.4px;text-align:center;text-decoration:none;transition:filter .2s,transform .2s}
+.promo-instagram-button:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.promo-ad-copy .promo-instagram-button{margin:7px 0 4px}
+.promo-panel-instagram{margin:12px auto 8px}
+.promo-follow-reminder{margin:0;padding:13px 15px;background:#ebc22b18;border-left:3px solid #ebc22b;color:#fff;font-size:12px;line-height:1.7;text-align:left}
+@media(max-width:800px){
+ .topbar{gap:9px;padding-inline:3vw}
+ .top-quick-actions{gap:5px;margin:0 2px 0 auto}
+ .quick-action{padding:8px 9px;font-size:10px;min-height:35px}
+ .mobile-menu-toggle{flex:0 0 auto}
+ .cart-open{flex:0 0 auto}
+}
+@media(max-width:520px){
+ .topbar{gap:6px;padding-inline:3vw}
+ .brand{gap:6px;font-size:10px;letter-spacing:1px}
+ .brand-logo{width:34px;height:34px}
+ .brand small{font-size:7px;letter-spacing:2px}
+ .top-quick-actions{gap:4px;margin:0 0 0 auto}
+ .quick-action{gap:4px;padding:7px 6px;font-size:9px;min-height:32px}
+ .quick-action span{font-size:13px}
+ .cart-open{padding:7px 7px;font-size:9px}
+ .mobile-menu-toggle{font-size:17px;padding:3px}
+ .promo-instagram-button{width:100%;padding:13px 10px;font-size:10px}
+}
