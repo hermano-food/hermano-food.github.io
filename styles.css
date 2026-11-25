@@ -228,3 +228,18 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
 .menu-category-heading{grid-column:1/-1;margin:34px 0 2px;padding:0 0 12px;border-bottom:1px solid var(--gold);color:var(--gold);font:800 30px "Playfair Display",serif;letter-spacing:.06em}
 .menu-category-heading:not(:first-child){margin-top:54px}
 @media(max-width:760px){.menu-category-heading{font-size:25px;margin-top:28px}}
+
+
+/* Optional supplements inside the order basket */
+.supplement-box{margin:12px 0;padding:15px;background:#202020;border:1px solid #ebc22b66}
+.supplement-box h3{margin:0 0 5px;color:#ebc22b;font:700 18px 'Playfair Display',serif}
+.supplement-box>p{margin:0 0 10px;color:#bdb5a8;font-size:11px;line-height:1.5}
+#supplementOptions{display:grid;gap:8px}
+.supplement-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid #ffffff18}
+.supplement-info{display:grid;gap:3px}
+.supplement-info strong{font-size:12px;color:#fff}
+.supplement-info small{font-size:11px;color:#ebc22b}
+.supplement-controls{display:flex;align-items:center;gap:9px}
+.supplement-controls button{width:30px;height:30px;border:1px solid #ebc22b;background:transparent;color:#ebc22b;font-size:18px;line-height:1}
+.supplement-controls button:disabled{opacity:.35;cursor:not-allowed}
+.supplement-controls b{min-width:14px;text-align:center;font-size:12px}
