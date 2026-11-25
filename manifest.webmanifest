@@ -1,0 +1,17 @@
+{
+  "name": "HERMANO FOOD",
+  "short_name": "HERMANO",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#101010",
+  "theme_color": "#ebc22b",
+  "icons": [
+    {
+      "src": "/icons/food.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
