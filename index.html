@@ -72,7 +72,7 @@
         <h1>DO9 W<br><em>HKEM.</em></h1>
         <p class="hero-sub">Des envies généreuses. Des prix légers. Le plaisir signé HERMANO.</p>
         <a class="gold-btn" href="#menu">Découvrir le menu <span>↗</span></a>
-        <p class="hero-note">7J/7 · 10:00 — 00:00 · SIDI BERNOUSSI</p>
+        <p class="hero-note" id="heroHours"></p>
       </div>
       <div class="hero-photo" role="img" aria-label="Assortiment de fast food"></div>
       <div class="hero-stamp">FRESH<br><b>&</b><br>DELICIOUS</div>
@@ -92,10 +92,10 @@
     <section class="menu-grid" id="products" aria-live="polite"></section>
     <section class="delivery" id="livraison">
       <div><p class="eyebrow">ON VIENT À TOI</p><h2>La livraison,<br><em>sans détour.</em></h2><p>Choisis ta zone au moment de commander. Tu peux aussi passer récupérer ta commande.</p></div>
-      <div class="zones"><h3>Nos zones de livraison</h3><div><span>Sidi Bernoussi</span><b>10 DH</b></div><div><span>Al Azhar</span><b>15 DH</b></div><div><span>Sidi Moumen</span><b>20 DH</b></div><div><span>Anassi</span><b>23 DH</b></div><div><span>Zenata</span><b>17 DH</b></div><div><span>Al Qods</span><b>10 DH</b></div><small>Pas de minimum de commande · Paiement en espèces</small></div>
+      <div class="zones"><h3>Nos zones de livraison</h3><div id="deliveryZoneList"></div><small>Pas de minimum de commande · Paiement en espèces</small></div>
     </section>
   </main>
-  <footer id="contact"><a class="brand" href="#"><span class="brand-mark">H</span><span>HERMANO <b>FOOD</b><small>DO9 W HKEM</small></span></a><p>Boulevard Ahmed Ahrass, Sidi Bernoussi, Casablanca</p><p>Ouvert 7j/7 · 10:00 — 00:00</p><div class="footer-actions"><a href="tel:+21263225995">📞 Appeler</a><a href="https://www.google.com/maps/search/?api=1&query=Boulevard%20Ahmed%20Ahrass%2C%20Sidi%20Bernoussi%2C%20Casablanca%2C%20Morocco" target="_blank" rel="noopener">📍 Itinéraire</a><a href="https://wa.me/21263225995" target="_blank" rel="noopener">WhatsApp</a><a href="https://ig.me/m/casalux_03" target="_blank" rel="noopener">Instagram</a></div><small>© HERMANO FOOD</small></footer>
+  <footer id="contact"><a class="brand" href="#"><span class="brand-mark">H</span><span>HERMANO <b>FOOD</b><small>DO9 W HKEM</small></span></a><p id="footerAddress"></p><p id="footerHours"></p><div class="footer-actions"><a href="#">📞 Appeler</a><a href="#" target="_blank" rel="noopener">📍 Itinéraire</a><a href="#" target="_blank" rel="noopener">WhatsApp</a><a href="#" target="_blank" rel="noopener">Instagram</a></div><small>© HERMANO FOOD</small></footer>
   <div class="cart-backdrop" id="cartBackdrop"></div>
   <aside class="cart-panel" id="cartPanel" aria-label="Votre panier" aria-hidden="true">
     <div class="cart-head"><div><p class="eyebrow">TA SÉLECTION</p><h2>Ton panier</h2></div><button id="cartClose" aria-label="Fermer">✕</button></div>
@@ -104,7 +104,7 @@
       <label for="customerName">Nom</label><input id="customerName" placeholder="Ton nom">
       <label for="customerPhone">Téléphone</label><input id="customerPhone" type="tel" placeholder="06...">
       <label for="orderType">Type de commande</label><select id="orderType"><option value="Livraison">Livraison</option><option value="À emporter">À emporter</option></select>
-      <div id="deliveryFields"><label for="zone">Zone de livraison</label><select id="zone"><option value="Sidi Bernoussi">Sidi Bernoussi — 10 DH</option><option value="Al Azhar">Al Azhar — 15 DH</option><option value="Sidi Moumen">Sidi Moumen — 20 DH</option><option value="Anassi">Anassi — 23 DH</option><option value="Zenata">Zenata — 17 DH</option><option value="Al Qods">Al Qods — 10 DH</option></select><label for="customerAddress">Adresse</label><input id="customerAddress" placeholder="Adresse de livraison"></div>
+      <div id="deliveryFields"><label for="zone">Zone de livraison</label><select id="zone"></select><label for="customerAddress">Adresse</label><input id="customerAddress" placeholder="Adresse de livraison"></div>
       <label for="orderNote">Note (facultatif)</label><textarea id="orderNote" placeholder="Sauces, indications..."></textarea>
       <div class="total-line"><span>Total estimé</span><strong id="grandTotal">0 DH</strong></div>
       <button class="gold-btn full" id="checkoutBtn">Commander sur WhatsApp ↗</button>
