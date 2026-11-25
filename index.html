@@ -56,7 +56,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=menu-groups-2">
+  <link rel="stylesheet" href="styles.css?v=menu-dropdown-1">
 </head>
 <body>
   <header class="topbar">
@@ -91,6 +91,7 @@
       <div class="promo-ad-price" aria-hidden="true">1<span>DH</span></div>
     </section>
     <section class="intro" id="menu"><p class="eyebrow">FAIT POUR TES ENVIES</p><h2>Choisis ton <em>plaisir.</em></h2><p>Du croustillant, du fondant et beaucoup de goût.</p></section>
+    <section class="category-picker" aria-label="Choisir un type de menu"><button class="category-toggle" id="categoryToggle" type="button" aria-expanded="false" aria-controls="filters"><span id="categoryToggleLabel">CHOISIR UN MENU</span><span class="category-chevron">⌄</span></button><div class="filters" id="filters" hidden></div></section>
     <section class="menu-grid" id="products" aria-live="polite"></section>
     <section class="delivery" id="livraison">
       <div><p class="eyebrow">ON VIENT À TOI</p><h2>La livraison,<br><em>sans détour.</em></h2><p>Choisis ta zone au moment de commander. Tu peux aussi passer récupérer ta commande.</p></div>
@@ -121,6 +122,6 @@
       <div class="detail-copy"><p class="eyebrow">LA SIGNATURE HERMANO</p><h2 id="detailTitle"></h2><p id="detailDescription"></p><strong class="detail-price" id="detailPrice"></strong><button class="gold-btn full" id="detailAdd">Ajouter au panier ↗</button></div>
     </article>
   </section>
-  <script src="theme.js?v=app-suite-1"></script><script src="app.js?v=menu-groups-2"></script>
+  <script src="theme.js?v=app-suite-1"></script><script src="app.js?v=menu-dropdown-1"></script>
 </body>
 </html>
