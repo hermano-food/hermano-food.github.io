@@ -127,7 +127,7 @@ function renderProducts(){
   function drawPromoCalendar(){
    daysBox.innerHTML="";
    monthLabel.textContent=shownMonth.toLocaleDateString("ar-MA",{month:"long",year:"numeric"});
-   const firstDay=new Date(shownMonth.getFullYear(),shownMonth.getMonth(),1).getDay();
+   const firstDay=(new Date(shownMonth.getFullYear(),shownMonth.getMonth(),1).getDay()+6)%7;
    const count=new Date(shownMonth.getFullYear(),shownMonth.getMonth()+1,0).getDate();
    for(let i=0;i<firstDay;i++){const blank=document.createElement("span");blank.className="promo-day blank";daysBox.append(blank)}
    for(let n=1;n<=count;n++){
