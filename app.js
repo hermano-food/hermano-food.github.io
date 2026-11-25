@@ -101,9 +101,7 @@ async function loadProductsFromSupabase(){
 }
 
 let active="TOUT";const cart=new Map();const $=id=>document.getElementById(id);const money=n=>n+" DH";
-function setCategoryMenu(open){const toggle=$("categoryToggle"),filters=$("filters");toggle.setAttribute("aria-expanded",String(open));filters.hidden=!open}
-$("categoryToggle").addEventListener("click",()=>setCategoryMenu($("categoryToggle").getAttribute("aria-expanded")!=="true"));
-const promoAdButton=$("promoAdButton");if(promoAdButton)promoAdButton.addEventListener("click",()=>{active="PROMO HERMANO";renderProducts();setCategoryMenu(false);$("menu").scrollIntoView({behavior:"smooth",block:"start"});});
+const promoAdButton=$("promoAdButton");if(promoAdButton)promoAdButton.addEventListener("click",()=>{active="PROMO HERMANO";renderProducts();$("menu").scrollIntoView({behavior:"smooth",block:"start"});});
 function renderProducts(){
  const container=$("products");
  if(active==="PROMO HERMANO"){
