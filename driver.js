@@ -18,4 +18,4 @@ function logout(){stopTracking();sessionStorage.removeItem('hermanoDriverToken')
 $('loginForm').onsubmit=login;$('refresh').onclick=loadOrders;$('logout').onclick=logout;
 if(token){call({action:'driver_orders',token}).then(()=>showPortal({label:'Livreur'})).catch(()=>{sessionStorage.removeItem('hermanoDriverToken');token=''})}
 
-$('changePinForm').onsubmit=async e=>{e.preventDefault();const current=$('currentPin').value,next=$('newPin').value;if(!/^\\d{6,8}$/.test(next)){message('Le PIN doit contenir 6 à 8 chiffres.');return}try{await call({action:'driver_change_pin',token,current_pin:current,new_pin:next});$('currentPin').value='';$('newPin').value='';message('PIN تبدل بنجاح. احتافظ به فبلاصة آمنة.')}catch(error){message(error.message)}};
+$('changePinForm').onsubmit=async e=>{e.preventDefault();const current=$('currentPin').value,next=$('newPin').value;if(!/^\d{6,8}$/.test(next)){message('Le PIN doit contenir 6 à 8 chiffres.');return}try{await call({action:'driver_change_pin',token,current_pin:current,new_pin:next});$('currentPin').value='';$('newPin').value='';message('PIN تبدل بنجاح. احتافظ به فبلاصة آمنة.')}catch(error){message(error.message)}};
