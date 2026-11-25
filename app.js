@@ -142,11 +142,11 @@ function renderProducts(){
     if(!past&&!full)btn.onclick=()=>{dateInput.value=key;drawPromoCalendar();hint.textContent="التاريخ المختار: "+d.toLocaleDateString("ar-MA");};
     daysBox.append(btn);
    }
-   prevMonth.disabled=true;
+   prevMonth.disabled=shownMonth<=firstAllowedMonth;
    nextMonth.disabled=shownMonth>=lastAllowedMonth;
    if(availabilityLoaded&&!dateInput.value)hint.textContent="اختار نهار بالأخضر، والأحمر راه محجوز.";
   }
-  prevMonth.onclick=()=>{};
+  prevMonth.onclick=()=>{if(!prevMonth.disabled){shownMonth=new Date(shownMonth.getFullYear(),shownMonth.getMonth()-1,1);drawPromoCalendar()}};
   nextMonth.onclick=()=>{if(!nextMonth.disabled){shownMonth=new Date(shownMonth.getFullYear(),shownMonth.getMonth()+1,1);drawPromoCalendar()}};
   drawPromoCalendar();loadPromoAvailability();
   const timeInput=form.querySelector('input[name="time"]');
