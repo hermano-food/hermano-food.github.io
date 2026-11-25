@@ -343,7 +343,8 @@ function renderCart(){
  const items=$("cartItems");
  if(rows.length)items.replaceChildren(...rows);
  else{const empty=document.createElement("p");empty.className="empty";empty.textContent="Ton panier est encore vide.";items.replaceChildren(empty)}
- $("grandTotal").textContent=money(subtotal+deliveryFee());\n renderSupplementOptions();
+ $("grandTotal").textContent=money(subtotal+deliveryFee());
+ renderSupplementOptions();
 }
 function openCart(){$("cartPanel").classList.add("open");$("cartBackdrop").classList.add("open");$("cartPanel").setAttribute("aria-hidden","false")}
 function closeCart(){$("cartPanel").classList.remove("open");$("cartBackdrop").classList.remove("open");$("cartPanel").setAttribute("aria-hidden","true")}
