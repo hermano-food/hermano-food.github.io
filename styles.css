@@ -223,3 +223,8 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
 
 /* PWA theme toggle */
 .theme-toggle{display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:38px;padding:8px 11px;border:1px solid var(--gold,#ebc22b);border-radius:8px;background:transparent;color:inherit;font-size:17px;cursor:pointer;flex:0 0 auto}
+
+/* Menu grouped by category: Poutchi first, Tacos underneath */
+.menu-category-heading{grid-column:1/-1;margin:34px 0 2px;padding:0 0 12px;border-bottom:1px solid var(--gold);color:var(--gold);font:800 30px "Playfair Display",serif;letter-spacing:.06em}
+.menu-category-heading:not(:first-child){margin-top:54px}
+@media(max-width:760px){.menu-category-heading{font-size:25px;margin-top:28px}}
