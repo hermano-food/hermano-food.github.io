@@ -96,15 +96,14 @@ async function loadProductsFromSupabase(){
    const local=localProducts.find(item=>item.name===row.name)||{};
    return {...local,id:Number(row.id),name:row.name,cat:row.category,price:row.price===null?null:Number(row.price),desc:row.description||local.desc||"",img:row.image_url||local.img||"",promoEligible:row.promo_eligible};
   });
-  renderFilters();renderProducts();renderCart();
+  renderProducts();renderCart();
  }catch(error){console.warn("HERMANO utilise le catalogue local de secours.",error)}
 }
 
-const cats=["TOUT","TACOS","POUTCHI","PIZZA","PASTICCIO","MHIRICHA","SUPPLÉMENTS","PROMO HERMANO"];let active="TOUT";const cart=new Map();const $=id=>document.getElementById(id);const money=n=>n+" DH";
+let active="TOUT";const cart=new Map();const $=id=>document.getElementById(id);const money=n=>n+" DH";
 function setCategoryMenu(open){const toggle=$("categoryToggle"),filters=$("filters");toggle.setAttribute("aria-expanded",String(open));filters.hidden=!open}
 $("categoryToggle").addEventListener("click",()=>setCategoryMenu($("categoryToggle").getAttribute("aria-expanded")!=="true"));
-const promoAdButton=$("promoAdButton");if(promoAdButton)promoAdButton.addEventListener("click",()=>{active="PROMO HERMANO";renderFilters();renderProducts();setCategoryMenu(false);$("menu").scrollIntoView({behavior:"smooth",block:"start"});});
-function renderFilters(){$("filters").innerHTML=cats.map(c=>'<button class="filter '+(active===c?'active':'')+'" data-cat="'+c+'"> '+c+'</button>').join("");document.querySelectorAll(".filter").forEach(b=>b.onclick=()=>{active=b.dataset.cat;renderFilters();renderProducts();setCategoryMenu(false);$("products").scrollIntoView({behavior:"smooth",block:"start"})})}
+const promoAdButton=$("promoAdButton");if(promoAdButton)promoAdButton.addEventListener("click",()=>{active="PROMO HERMANO";renderProducts();setCategoryMenu(false);$("menu").scrollIntoView({behavior:"smooth",block:"start"});});
 function renderProducts(){
  const container=$("products");
  if(active==="PROMO HERMANO"){
@@ -245,9 +244,14 @@ function renderProducts(){
   });
   container.append(form);return;
  }
- const list=products.filter(p=>active==="TOUT"||p.cat===active);
+ const list=products.filter(p=>["POUTCHI","TACOS"].includes(String(p.cat||"").toUpperCase()));
  container.innerHTML="";
- list.forEach(p=>{
+ ["POUTCHI","TACOS"].forEach(category=>{
+  const group= list.filter(p=>String(p.cat||"").toUpperCase()===category);
+  if(!group.length)return;
+  const heading=document.createElement("h2");heading.className="menu-category-heading";heading.textContent=category;
+  container.append(heading);
+  group.forEach(p=>{
   const card=document.createElement("article");
   card.className="product";card.dataset.detail=p.id;card.tabIndex=0;card.setAttribute("role","button");card.setAttribute("aria-label","Voir "+p.name);
   const photo=document.createElement("div");photo.className="product-photo";
@@ -266,6 +270,7 @@ function renderProducts(){
   card.addEventListener("click",()=>showProduct(p.id));
   card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();showProduct(p.id)}});
   container.append(card);
+  });
  });
 }
 function showProduct(id){const p=products.find(x=>x.id===id);if(!p)return;$("detailImage").src=p.img;$("detailImage").alt=p.name;$("detailTitle").textContent=p.name;$("detailDescription").textContent=p.desc;$("detailPrice").textContent=p.price===null?"Prix à confirmer":money(p.price);$("detailAdd").textContent=p.price===null?"Prix à confirmer":"Ajouter au panier ↗";$("detailAdd").disabled=p.price===null;$("detailAdd").style.opacity=p.price===null?".5":"1";$("detailAdd").onclick=()=>{if(p.price!==null){closeProduct();add(p.id)}};$("productDetail").classList.add("open");$("productDetail").setAttribute("aria-hidden","false");document.body.style.overflow="hidden"}
@@ -315,7 +320,7 @@ $("checkoutBtn").onclick=async()=>{if(!cart.size){alert("Ajoute au moins un arti
  }catch(error){if(whatsapp)whatsapp.close();alert("La commande n'a pas pu être enregistrée : "+error.message);}
 };
 applyConfig();
-renderFilters();renderProducts();renderCart();
+renderProducts();renderCart();
 loadProductsFromSupabase();
 let catalogueRefreshTimer=null;
 function startCatalogueRefresh(){
