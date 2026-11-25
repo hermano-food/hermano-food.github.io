@@ -205,7 +205,11 @@ function renderProducts(){
  list.forEach(p=>{
   const card=document.createElement("article");
   card.className="product";card.dataset.detail=p.id;card.tabIndex=0;card.setAttribute("role","button");card.setAttribute("aria-label","Voir "+p.name);
-  const photo=document.createElement("div");photo.className="product-photo";photo.style.backgroundImage="url("+JSON.stringify(p.img)+")";
+  const photo=document.createElement("div");photo.className="product-photo";
+  const productImage=document.createElement("img");productImage.className="product-photo-image";productImage.alt=p.name||"Produit";productImage.loading="lazy";
+  productImage.onerror=()=>{const fallback=document.createElement("div");fallback.className="photo-fallback";fallback.textContent="Photo indisponible";photo.replaceChildren(fallback)};
+  if(p.img)productImage.src=p.img;else productImage.onerror();
+  if(p.img)photo.append(productImage);
   const body=document.createElement("div");body.className="product-body";
   const title=document.createElement("h3");title.textContent=p.name;
   const desc=document.createElement("p");desc.textContent=p.desc;
@@ -225,7 +229,36 @@ $("detailClose").onclick=closeProduct;$("detailBackdrop").onclick=closeProduct;d
 function add(id){const p=products.find(x=>x.id===id);if(p.price===null)return;cart.set(id,(cart.get(id)||0)+1);renderCart();openCart()}
 function change(id,d){const n=(cart.get(id)||0)+d;if(n<=0)cart.delete(id);else cart.set(id,n);renderCart()}
 function deliveryFee(){return $("orderType").value==="Livraison"?({"Sidi Bernoussi":10,"Al Azhar":15,"Sidi Moumen":20,"Anassi":23,"Zenata":17,"Al Qods":10}[$("zone").value]||0):0}
-function renderCart(){let count=0,subtotal=0;let html="";cart.forEach((q,id)=>{const p=products.find(x=>x.id===id);count+=q;subtotal+=q*p.price;html+='<div class="cart-row"><div class="cart-product"><img class="cart-thumb" src="'+p.img+'" alt="'+p.name+'"><div class="cart-product-info">'+p.name+'<small>'+money(p.price*q)+'</small></div></div><div class="qty"><button data-q="'+id+'" data-d="-1">−</button><b>'+q+'</b><button data-q="'+id+'" data-d="1">+</button></div></div>'});$("cartCount").textContent=count;$("cartItems").innerHTML=html||'<p class="empty">Ton panier est encore vide.</p>';$("grandTotal").textContent=money(subtotal+deliveryFee());document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>change(Number(b.dataset.q),Number(b.dataset.d)))}
+function renderCart(){
+ let count=0,subtotal=0;
+ const rows=[];
+ cart.forEach((q,id)=>{
+  const p=products.find(x=>x.id===id);
+  if(!p)return;
+  count+=q;subtotal+=q*Number(p.price||0);
+  const row=document.createElement("div");row.className="cart-row";
+  const product=document.createElement("div");product.className="cart-product";
+  const img=document.createElement("img");img.className="cart-thumb";img.alt=p.name||"Produit";
+  if(p.img)img.src=p.img;
+  img.onerror=()=>{img.removeAttribute("src");img.alt="Photo indisponible";img.classList.add("cart-thumb-broken")};
+  const info=document.createElement("div");info.className="cart-product-info";
+  const name=document.createElement("span");name.textContent=p.name||"Produit";
+  const price=document.createElement("small");price.textContent=money(Number(p.price||0)*q);
+  info.append(name,price);product.append(img,info);
+  const qty=document.createElement("div");qty.className="qty";
+  const minus=document.createElement("button");minus.type="button";minus.textContent="−";minus.setAttribute("aria-label","Retirer un "+(p.name||"produit"));
+  minus.addEventListener("click",()=>change(Number(id),-1));
+  const amount=document.createElement("b");amount.textContent=String(q);
+  const plus=document.createElement("button");plus.type="button";plus.textContent="+";plus.setAttribute("aria-label","Ajouter un "+(p.name||"produit"));
+  plus.addEventListener("click",()=>change(Number(id),1));
+  qty.append(minus,amount,plus);row.append(product,qty);rows.push(row);
+ });
+ $("cartCount").textContent=count;
+ const items=$("cartItems");
+ if(rows.length)items.replaceChildren(...rows);
+ else{const empty=document.createElement("p");empty.className="empty";empty.textContent="Ton panier est encore vide.";items.replaceChildren(empty)}
+ $("grandTotal").textContent=money(subtotal+deliveryFee());
+}
 function openCart(){$("cartPanel").classList.add("open");$("cartBackdrop").classList.add("open");$("cartPanel").setAttribute("aria-hidden","false")}
 function closeCart(){$("cartPanel").classList.remove("open");$("cartBackdrop").classList.remove("open");$("cartPanel").setAttribute("aria-hidden","true")}
 $("cartOpen").onclick=openCart;$("cartClose").onclick=closeCart;$("cartBackdrop").onclick=closeCart;$("orderType").onchange=()=>{$("deliveryFields").hidden=$("orderType").value!=="Livraison";renderCart()};$("zone").onchange=renderCart;
@@ -238,7 +271,15 @@ $("checkoutBtn").onclick=async()=>{if(!cart.size){alert("Ajoute au moins un arti
 };
 renderFilters();renderProducts();renderCart();
 loadProductsFromSupabase();
-setInterval(()=>{if(document.visibilityState==='visible')loadProductsFromSupabase()},3000);
+let catalogueRefreshTimer=null;
+function startCatalogueRefresh(){
+ if(catalogueRefreshTimer)return;
+ catalogueRefreshTimer=setInterval(()=>{if(document.visibilityState==="visible")loadProductsFromSupabase()},60000);
+}
+document.addEventListener("visibilitychange",()=>{
+ if(document.visibilityState==="visible")loadProductsFromSupabase();
+});
+startCatalogueRefresh();
 
 
 /* Accessible mobile navigation */
