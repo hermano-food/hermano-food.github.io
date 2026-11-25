@@ -69,8 +69,13 @@ function applyConfig(){
   name.textContent=zone.name;fee.textContent=zone.fee+" DH";line.append(name,fee);return line;
  }));
  const links=document.querySelectorAll(".footer-actions a");
- if(links[0])links[0].href="tel:+"+CONFIG.whatsappNumber;
- if(links[1])links[1].href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(CONFIG.address);
+ const phoneLink="tel:+"+CONFIG.whatsappNumber;
+ const locationLink="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(CONFIG.address);
+ const topCall=$("topCall"),topLocation=$("topLocation");
+ if(topCall)topCall.href=phoneLink;
+ if(topLocation)topLocation.href=locationLink;
+ if(links[0])links[0].href=phoneLink;
+ if(links[1])links[1].href=locationLink;
  if(links[2])links[2].href="https://wa.me/"+CONFIG.whatsappNumber;
  if(links[3])links[3].href="https://ig.me/m/"+CONFIG.instagramUsername;
 }
@@ -104,7 +109,7 @@ function renderProducts(){
  const container=$("products");
  if(active==="PROMO HERMANO"){
   const panel=document.createElement("article");panel.className="promo-panel";
-  panel.innerHTML='<p class="eyebrow">OFFRE SPÉCIALE HERMANO</p><h2>PROMO <em>HERMANO</em></h2><div class="promo-price">1 DH</div><p>Choisis ton produit et remplis tes informations. Ton numéro de commande sera créé avant de passer sur Instagram.</p><p>Un seul produit par client · Sur place uniquement · Sans livraison.</p>';
+  panel.innerHTML='<p class="eyebrow">OFFRE SPÉCIALE HERMANO</p><h2>PROMO <em>HERMANO</em></h2><div class="promo-price">1 DH</div><p><strong>Avant de réserver : suis HERMANO sur Instagram.</strong> Le Follow est obligatoire pour profiter de la promotion et sera vérifié par notre équipe.</p><p>1. Clique sur le bouton Instagram et abonne-toi à <strong>@'+CONFIG.instagramUsername+'</strong>.</p><p>2. Reviens ici, choisis ton produit, ton jour et ton heure.</p><p>3. Crée ton numéro de réservation puis envoie-le en DM à HERMANO. Nous vérifierons ton Follow avant de confirmer.</p><p>Un seul produit par client · Sur place uniquement · Sans livraison.</p><a class="promo-instagram-button promo-panel-instagram" href="https://www.instagram.com/'+CONFIG.instagramUsername+'/" target="_blank" rel="noopener">◎ SUIVRE HERMANO SUR INSTAGRAM ↗</a>'
   container.replaceChildren(panel);
   const savedKey="hermanoPromoLastReservation";
   const savedRaw=localStorage.getItem(savedKey);
@@ -138,7 +143,7 @@ function renderProducts(){
   });
   container.append(grid);
   const today=new Date();const minDate=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
-  form.innerHTML='<h3>Ton Instagram et ta réservation</h3><label>Ton Instagram<input name="instagram" type="text" required maxlength="31" placeholder="@ton_compte"></label><div class="promo-date-field"><span>Jour souhaité</span><input name="date" type="hidden"><div class="promo-calendar"><div class="promo-calendar-head"><button type="button" class="promo-month-prev" aria-label="Mois précédent">‹</button><strong class="promo-month-label">Chargement…</strong><button type="button" class="promo-month-next" aria-label="Mois suivant">›</button></div><div class="promo-calendar-week"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span></div><div class="promo-calendar-days"></div><small class="promo-date-hint">Chargement des disponibilités…</small><div class="promo-calendar-legend"><span><i class="promo-dot available"></i> Disponible</span><span><i class="promo-dot full"></i> Complet</span></div></div></div><div class="promo-time-field"><span>Heure souhaitée</span><input type="hidden" name="time"><button type="button" class="promo-time-trigger" aria-expanded="false"><span class="promo-time-icon">◷</span><span class="promo-time-value">Choisir une heure</span><span class="promo-time-chevron">⌄</span></button><div class="promo-time-panel" hidden><div class="promo-time-panel-title">Choisis ton créneau</div><div class="promo-time-slots"></div></div></div><button class="gold-btn full" type="submit">Créer mon numéro de commande</button><small>Ta demande sera enregistrée. Après, envoie ton numéro en DM Instagram. HERMANO vérifiera ton Follow avant de confirmer la promo.</small>';
+  form.innerHTML='<h3>Ton Instagram et ta réservation</h3><p class="promo-follow-reminder">Important : tu dois déjà suivre <strong>@'+CONFIG.instagramUsername+'</strong> sur Instagram. Notre équipe vérifiera ton Follow avant de confirmer la promo.</p><a class="promo-instagram-button" href="https://www.instagram.com/'+CONFIG.instagramUsername+'/" target="_blank" rel="noopener">◎ OUVRIR INSTAGRAM ET SUIVRE ↗</a><label>Ton Instagram<input name="instagram" type="text" required maxlength="31" placeholder="@ton_compte"></label><div class="promo-date-field"><span>Jour souhaité</span><input name="date" type="hidden"><div class="promo-calendar"><div class="promo-calendar-head"><button type="button" class="promo-month-prev" aria-label="Mois précédent">‹</button><strong class="promo-month-label">Chargement…</strong><button type="button" class="promo-month-next" aria-label="Mois suivant">›</button></div><div class="promo-calendar-week"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span></div><div class="promo-calendar-days"></div><small class="promo-date-hint">Chargement des disponibilités…</small><div class="promo-calendar-legend"><span><i class="promo-dot available"></i> Disponible</span><span><i class="promo-dot full"></i> Complet</span></div></div></div><div class="promo-time-field"><span>Heure souhaitée</span><input type="hidden" name="time"><button type="button" class="promo-time-trigger" aria-expanded="false"><span class="promo-time-icon">◷</span><span class="promo-time-value">Choisir une heure</span><span class="promo-time-chevron">⌄</span></button><div class="promo-time-panel" hidden><div class="promo-time-panel-title">Choisis ton créneau</div><div class="promo-time-slots"></div></div></div><button class="gold-btn full" type="submit">Créer mon numéro de commande</button><small>Ta demande sera enregistrée. Après, envoie ton numéro en DM Instagram. HERMANO vérifiera ton Follow avant de confirmer la promo.</small>';
 
   const dateInput=form.querySelector('input[name="date"]');
   const calendar=form.querySelector('.promo-calendar');
