@@ -96,12 +96,32 @@ async function loadProductsFromSupabase(){
    const local=localProducts.find(item=>item.name===row.name)||{};
    return {...local,id:Number(row.id),name:row.name,cat:row.category,price:row.price===null?null:Number(row.price),desc:row.description||local.desc||"",img:row.image_url||local.img||"",promoEligible:row.promo_eligible};
   });
-  renderProducts();renderCart();
+  renderFilters();renderProducts();renderCart();
  }catch(error){console.warn("HERMANO utilise le catalogue local de secours.",error)}
 }
 
 let active="TOUT";const cart=new Map();const $=id=>document.getElementById(id);const money=n=>n+" DH";
-const promoAdButton=$("promoAdButton");if(promoAdButton)promoAdButton.addEventListener("click",()=>{active="PROMO HERMANO";renderProducts();$("menu").scrollIntoView({behavior:"smooth",block:"start"});});
+function menuCategories(){
+ const cats=[...new Set(products.map(p=>String(p.cat||"").trim().toUpperCase()).filter(Boolean))];
+ return cats.sort((x,y)=>{const order=["POUTCHI","TACOS"];const ix=order.indexOf(x),iy=order.indexOf(y);if(ix!==-1||iy!==-1)return (ix===-1?99:ix)-(iy===-1?99:iy);return x.localeCompare(y)});
+}
+function renderFilters(){
+ const filters=$("filters");if(!filters)return;
+ const categories=menuCategories();
+ const choices=[{value:"TOUT",label:"TOUS LES MENUS"},...categories.map(cat=>({value:cat,label:cat}))];
+ filters.replaceChildren(...choices.map(choice=>{
+  const button=document.createElement("button");button.type="button";button.className="filter"+(active===choice.value?" active":"");button.textContent=choice.label;
+  button.addEventListener("click",()=>{active=choice.value;renderFilters();renderProducts();setCategoryMenu(false);});
+  return button;
+ }));
+ const label=$("categoryToggleLabel");if(label)label.textContent=active==="TOUT"?"CHOISIR UN MENU":active==="PROMO HERMANO"?"PROMO HERMANO":active;
+}
+function setCategoryMenu(open){
+ const toggle=$("categoryToggle"),filters=$("filters");if(!toggle||!filters)return;
+ toggle.setAttribute("aria-expanded",String(open));filters.hidden=!open;
+}
+const categoryToggle=$("categoryToggle");if(categoryToggle)categoryToggle.addEventListener("click",()=>setCategoryMenu(categoryToggle.getAttribute("aria-expanded")!=="true"));
+const promoAdButton=$("promoAdButton");if(promoAdButton)promoAdButton.addEventListener("click",()=>{active="PROMO HERMANO";renderFilters();renderProducts();$("menu").scrollIntoView({behavior:"smooth",block:"start"});});
 function renderProducts(){
  const container=$("products");
  if(active==="PROMO HERMANO"){
@@ -242,9 +262,10 @@ function renderProducts(){
   });
   container.append(form);return;
  }
- const list=products.filter(p=>["POUTCHI","TACOS"].includes(String(p.cat||"").toUpperCase()));
+ const categories=menuCategories().filter(category=>active==="TOUT"||category===active);
+ const list=products.filter(p=>categories.includes(String(p.cat||"").trim().toUpperCase()));
  container.innerHTML="";
- ["POUTCHI","TACOS"].forEach(category=>{
+ categories.forEach(category=>{
   const group= list.filter(p=>String(p.cat||"").toUpperCase()===category);
   if(!group.length)return;
   const heading=document.createElement("h2");heading.className="menu-category-heading";heading.textContent=category;
@@ -318,7 +339,7 @@ $("checkoutBtn").onclick=async()=>{if(!cart.size){alert("Ajoute au moins un arti
  }catch(error){if(whatsapp)whatsapp.close();alert("La commande n'a pas pu être enregistrée : "+error.message);}
 };
 applyConfig();
-renderProducts();renderCart();
+renderFilters();renderProducts();renderCart();
 loadProductsFromSupabase();
 let catalogueRefreshTimer=null;
 function startCatalogueRefresh(){
