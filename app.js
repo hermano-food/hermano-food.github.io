@@ -172,7 +172,7 @@ function renderProducts(){
    for(let i=0;i<firstDay;i++){const blank=document.createElement("span");blank.className="promo-day blank";daysBox.append(blank)}
    for(let n=1;n<=count;n++){
     const d=new Date(shownMonth.getFullYear(),shownMonth.getMonth(),n);const key=dateKey(d);
-    const past=d<todayDate;const full=bookedPromoDates.has(key);
+    const outsideRange=d<promoStart||d>promoEnd;const past=d<todayDate||outsideRange;const full=bookedPromoDates.has(key);
     const state=past?"past":full?"full":"available";
     const btn=document.createElement("button");btn.type="button";btn.className="promo-day "+state+(dateInput.value===key?" selected":"");
     const number=document.createElement("b");number.className="promo-day-number";number.textContent=String(n);
