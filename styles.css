@@ -141,3 +141,24 @@
 .promo-ad-price{flex:0 0 clamp(115px,17vw,190px);width:clamp(115px,17vw,190px);height:clamp(115px,17vw,190px);border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;gap:5px;color:var(--gold);font:800 clamp(48px,8vw,88px)/1 'Playfair Display';transform:rotate(-9deg);box-shadow:0 0 45px #c7a45a22,inset 0 0 35px #c7a45a15}
 .promo-ad-price span{font:700 17px 'DM Sans';align-self:center}
 @media(max-width:700px){.promo-ad{margin:0 6vw 20px;padding:25px 20px;gap:10px}.promo-ad-price{flex-basis:88px;width:88px;height:88px;font-size:43px}.promo-ad-price span{font-size:12px}.promo-ad h2{font-size:34px}.promo-ad-copy>p:not(.eyebrow){font-size:12px;line-height:1.6}.promo-ad-button{padding:13px 14px;font-size:10px}}
+
+/* Mobile navigation, footer shortcuts and compact hero stamp */
+.mobile-menu-toggle{display:none;border:1px solid #6f5b35;background:transparent;color:var(--gold);padding:8px 11px;border-radius:3px;font-size:20px;line-height:1}
+.footer-actions{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;margin:22px auto 4px}
+.footer-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border:1px solid #6f5b35;border-radius:3px;color:var(--gold);font-weight:700;font-size:12px}
+.footer-actions a:hover{background:var(--gold);color:#111}
+@media(max-width:800px){
+  .topbar{position:sticky}
+  .mobile-menu-toggle{display:inline-flex;align-items:center;justify-content:center;order:3}
+  .cart-open{margin-left:auto;margin-right:10px}
+  .topbar nav{display:none;position:absolute;top:100%;left:0;right:0;padding:12px 5vw 18px;background:#101010f7;border-bottom:1px solid #ffffff22;flex-direction:column;gap:0;box-shadow:0 14px 25px #0008}
+  .topbar nav.open{display:flex}
+  .topbar nav a{padding:13px 5px;border-bottom:1px solid #ffffff12;font-size:14px}
+  .hero-stamp{font-size:9px;letter-spacing:.5px}
+}
+@media(max-width:520px){
+  .hero-stamp{width:64px;height:64px;right:6%;top:265px;font-size:7px;line-height:1.2;letter-spacing:.25px}
+  .hero-stamp b{font-size:12px}
+  .footer-actions{gap:8px}
+  .footer-actions a{flex:1 1 calc(50% - 8px);max-width:180px;padding:10px 8px;font-size:11px}
+}
