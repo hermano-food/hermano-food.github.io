@@ -162,3 +162,9 @@
   .footer-actions{gap:8px}
   .footer-actions a{flex:1 1 calc(50% - 8px);max-width:180px;padding:10px 8px;font-size:11px}
 }
+
+/* Graceful image fallback for missing product photos */
+.product-photo{position:relative;background:#242424;overflow:hidden}
+.product-photo-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.photo-fallback{width:100%;height:100%;min-height:150px;display:grid;place-items:center;background:linear-gradient(135deg,#292929,#171717);color:#b9ad96;font-size:12px;letter-spacing:1px}
+.cart-thumb-broken{object-fit:contain;background:#292929;color:#c9b98f;padding:5px;font-size:9px}
