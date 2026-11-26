@@ -137,8 +137,8 @@
       <label for="customerPhone">Numéro de téléphone *</label><input id="customerPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ex. 06 12 34 56 78" required aria-required="true">
       <label for="orderType">Type de commande</label><select id="orderType"><option value="Livraison">Livraison</option><option value="À emporter">À emporter</option></select>
       <div id="deliveryFields"><label for="zone">Zone de livraison</label><select id="zone"></select><label for="customerAddress">Adresse</label><input id="customerAddress" placeholder="Adresse de livraison"></div>
-      <section class="supplement-box" aria-label="Suppléments facultatifs"><h3>Ajouter des suppléments ?</h3><p>Choisis les extras que tu veux avec ta commande.</p><div id="supplementOptions"></div></section>
-      <label for="orderNote">Note (facultatif)</label><textarea id="orderNote" placeholder="Sauces, indications..."></textarea>
+      <label for="orderSauce">Choisis ta sauce</label><select id="orderSauce"><option value="">Sans sauce / Pas de préférence</option><option value="Biggy">Biggy</option><option value="Algérienne">Algérienne</option></select>
+      <details class="supplement-box"><summary>Supplément +</summary><p>Choisis les extras que tu veux avec ta commande.</p><div id="supplementOptions"></div></details>
       <div class="total-line"><span>Total estimé</span><strong id="grandTotal">0 DH</strong></div>
       <button class="gold-btn full" id="checkoutBtn">Commander sur WhatsApp ↗</button>
       <small>Le prix des articles sans tarif affiché sera confirmé avant validation.</small>
@@ -152,6 +152,6 @@
       <div class="detail-copy"><p class="eyebrow">LA SIGNATURE HERMANO</p><h2 id="detailTitle"></h2><p id="detailDescription"></p><strong class="detail-price" id="detailPrice"></strong><button class="gold-btn full" id="detailAdd">Ajouter au panier ↗</button></div>
     </article>
   </section>
-  <script src="theme.js?v=app-suite-1"></script><script src="app.js?v=menu-repair-20261125"></script>
+  <script src="theme.js?v=app-suite-1"></script><script src="app.js?v=cart-sauce-1"></script>
 </body>
 </html>
