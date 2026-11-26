@@ -319,3 +319,7 @@ footer img.brand-logo{
 
 /* Crop the white corners outside the supplied circular HERMANO logo */
 .topbar img.brand-logo,.hero-brandline img.hero-logo,footer img.brand-logo{object-fit:cover!important;clip-path:circle(50% at 50% 50%)!important;border-radius:50%!important;background:transparent!important;box-shadow:none!important}
+
+
+/* Reduce only the logo size in the top header */
+.topbar .brand-logo{width:44px!important;height:44px!important;min-width:44px!important;max-width:44px!important;flex:0 0 44px!important;object-fit:cover!important}
