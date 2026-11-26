@@ -257,3 +257,8 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
 /* Slightly larger HERMANO header logo */
 .topbar .brand-logo{width:52px;height:52px}
 @media(max-width:520px){.topbar .brand-logo{width:39px;height:39px}}
+
+
+/* HERMANO header logo: one more small size increase */
+.topbar .brand-logo{width:58px;height:58px}
+@media(max-width:520px){.topbar .brand-logo{width:44px;height:44px}}
