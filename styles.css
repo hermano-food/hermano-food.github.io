@@ -316,3 +316,6 @@ footer img.brand-logo{
   outline:0!important;
   box-shadow:none!important;
 }
+
+/* Logo fallback: use the existing repository logo without clipping its artwork */
+.topbar img.brand-logo,.hero-brandline img.hero-logo,footer img.brand-logo{object-fit:contain!important;clip-path:none!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
