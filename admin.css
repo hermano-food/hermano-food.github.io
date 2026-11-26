@@ -5,3 +5,16 @@
 
 /* Shared day/night theme support */
 .theme-toggle{display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:38px;padding:8px 11px;border:1px solid var(--gold);border-radius:8px;background:transparent;color:inherit;font-size:17px;cursor:pointer;flex:0 0 auto}
+
+/* Simplified monthly order archive */
+.month-group{border:1px solid var(--line);border-radius:12px;background:#141414;margin:0 0 12px;overflow:hidden}
+.month-group>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;cursor:pointer;list-style:none;font-weight:800;color:var(--gold);text-transform:capitalize}
+.month-group>summary::-webkit-details-marker{display:none}
+.month-group>summary:after{content:'+';font-size:20px;color:var(--gold)}
+.month-group[open]>summary:after{content:'−'}
+.month-meta{font-size:12px;font-weight:500;color:var(--muted);text-align:right;text-transform:none}
+.month-orders{display:grid;gap:10px;padding:0 12px 12px}
+.order-items{display:grid;gap:7px;margin:10px 0}
+.order-item{display:flex;align-items:center;gap:10px;font-size:13px}
+.order-item>div{display:grid;gap:3px}
+@media(max-width:600px){.month-group>summary{align-items:flex-start;flex-direction:column;gap:5px}.month-group>summary:after{position:absolute;right:30px}.month-meta{text-align:left}}
