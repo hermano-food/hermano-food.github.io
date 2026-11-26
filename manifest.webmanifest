@@ -8,9 +8,9 @@
   "theme_color": "#ebc22b",
   "icons": [
     {
-      "src": "/images/hermano%20pic.jpg",
+      "src": "/images/hermano-logo.webp",
       "sizes": "any",
-      "type": "image/jpeg",
+      "type": "image/webp",
       "purpose": "any"
     }
   ]
