@@ -33,7 +33,7 @@ function renderPromos(){
  const filter=$('promoFilter').value;
  const visiblePromos=allPromos.filter(p=>filter==='all'||(filter==='cancelled'&&(p.status==='cancelled'||p.status==='rejected'))||p.status===filter);
  const months=[...new Set(visiblePromos.map(p=>monthKey(p.created_at)))].sort((a,b)=>b.localeCompare(a));
- const currentMonth=monthKey(new Date().toISOString());
+ const currentMonth=monthKey(new Date());
  const target=new URLSearchParams(location.search).get('promo');
  $('promosList').innerHTML=months.map(month=>{
   const monthPromos=visiblePromos.filter(p=>monthKey(p.created_at)===month);
