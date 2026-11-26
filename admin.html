@@ -16,7 +16,7 @@
   const status=document.getElementById('loginMessage');
   function loadAdmin(){
     if(!window.supabase){status.textContent='Impossible de charger le service de connexion. Recharge la page dans quelques instants.';return;}
-    const s=document.createElement('script');s.src='admin.js?v=monthly-archive-1';
+    const s=document.createElement('script');s.src='admin.js?v=password-recovery-fix-1';
     s.onerror=function(){status.textContent='Le fichier de connexion ne se charge pas. Essaie Ctrl + F5.';};
     document.body.appendChild(s);
   }
