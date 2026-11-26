@@ -317,5 +317,5 @@ footer img.brand-logo{
   box-shadow:none!important;
 }
 
-/* Logo fallback: use the existing repository logo without clipping its artwork */
-.topbar img.brand-logo,.hero-brandline img.hero-logo,footer img.brand-logo{object-fit:contain!important;clip-path:none!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+/* Crop the white corners outside the supplied circular HERMANO logo */
+.topbar img.brand-logo,.hero-brandline img.hero-logo,footer img.brand-logo{object-fit:cover!important;clip-path:circle(50% at 50% 50%)!important;border-radius:50%!important;background:transparent!important;box-shadow:none!important}
