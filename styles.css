@@ -252,3 +252,8 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
 .supplement-box[open]>summary::after{content:"−"}
 .supplement-box[open]>summary{margin-bottom:10px}
 #orderSauce{width:100%}
+
+
+/* Slightly larger HERMANO header logo */
+.topbar .brand-logo{width:52px;height:52px}
+@media(max-width:520px){.topbar .brand-logo{width:39px;height:39px}}
