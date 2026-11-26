@@ -301,3 +301,18 @@ footer .brand-logo{
   box-shadow:none!important;
   background:transparent!important;
 }
+
+
+/* Force a circular crop for every displayed HERMANO logo */
+.topbar img.brand-logo,
+.hero-brandline img.hero-logo,
+footer img.brand-logo{
+  display:block!important;
+  border-radius:50%!important;
+  clip-path:circle(50% at 50% 50%)!important;
+  overflow:hidden!important;
+  object-fit:cover!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
