@@ -275,3 +275,16 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
 
 /* Remove the gold outline around HERMANO logo images */
 .topbar .brand-logo,.hero-brandline .hero-logo,footer .brand-logo{border:none!important;}
+
+
+/* Display the supplied HERMANO logo as-is, without added decoration */
+.topbar .brand-logo,
+.hero-brandline .hero-logo,
+footer .brand-logo{
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+  border-radius:0!important;
+  object-fit:contain!important;
+}
