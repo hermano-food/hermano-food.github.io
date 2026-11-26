@@ -243,3 +243,12 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
 .supplement-controls button{width:30px;height:30px;border:1px solid #ebc22b;background:transparent;color:#ebc22b;font-size:18px;line-height:1}
 .supplement-controls button:disabled{opacity:.35;cursor:not-allowed}
 .supplement-controls b{min-width:14px;text-align:center;font-size:12px}
+
+
+/* Cart extras accordion and sauce choice */
+.supplement-box>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;list-style:none;color:#ebc22b;font-weight:800;font-size:14px}
+.supplement-box>summary::-webkit-details-marker{display:none}
+.supplement-box>summary::after{content:"+";font-size:20px;line-height:1}
+.supplement-box[open]>summary::after{content:"−"}
+.supplement-box[open]>summary{margin-bottom:10px}
+#orderSauce{width:100%}
