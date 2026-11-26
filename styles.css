@@ -268,6 +268,6 @@ footer{border-top:1px solid #ebc22b33;background:linear-gradient(180deg,#151515,
 
 
 /* HERMANO hero logo beside LE GOÛT QUI RASSEMBLE */
-.hero-brandline .hero-logo{width:104px!important;height:104px!important;flex:0 0 104px!important}
+.hero-brandline .hero-logo{width:140px!important;height:140px!important;flex:0 0 140px!important}
 .hero-brandline{gap:18px!important;align-items:center}
-@media(max-width:520px){.hero-brandline .hero-logo{width:82px!important;height:82px!important;flex:0 0 82px!important}.hero-brandline{gap:12px!important}}
+@media(max-width:520px){.hero-brandline .hero-logo{width:112px!important;height:112px!important;flex:0 0 112px!important}.hero-brandline{gap:12px!important}}
