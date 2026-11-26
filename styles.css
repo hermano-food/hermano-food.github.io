@@ -171,10 +171,10 @@
 
 /* HERMANO brand refresh — logo-led identity */
 .brand{gap:13px}
-.brand-logo{display:block;width:46px;height:46px;object-fit:contain;flex:0 0 auto}
+.brand-logo{display:block;width:46px;height:46px;object-fit:cover;object-position:center center;border-radius:50%;background:#fff;border:1px solid var(--gold);flex:0 0 auto}
 .hero-brandline{display:flex;align-items:center;gap:15px;margin-bottom:12px}
 .hero-brandline .eyebrow{margin:0}
-.hero-logo{width:68px;height:68px;object-fit:contain;filter:drop-shadow(0 8px 20px #0008)}
+.hero-logo{width:68px;height:68px;object-fit:cover;object-position:center center;border-radius:50%;background:#fff;border:2px solid var(--gold);box-shadow:0 8px 20px #0008}
 .hero h1{margin-top:18px}
 .hero-copy{max-width:540px}
 .hero-photo{border:1px solid #ebc22b55;position:relative}
