@@ -388,3 +388,26 @@ if(mobileMenuToggle&&mainNav){
     mobileMenuToggle.textContent="☰";
   }));
 }
+
+
+/* Live visitors: Supabase Realtime Presence */
+(function(){
+ if(!window.supabase?.createClient)return;
+ const presenceClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLIC_KEY);
+ const presenceKey=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'visitor-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+ const presenceChannel=presenceClient.channel('site-online-presence',{config:{presence:{key:presenceKey}}});
+ let joined=false;
+ async function updatePresence(){
+  if(!joined)return;
+  if(document.visibilityState==='visible'){
+   try{await presenceChannel.track({online:true,active_at:new Date().toISOString()})}catch(e){console.warn('Visitor presence:',e.message)}
+  }else{
+   try{await presenceChannel.untrack()}catch(e){console.warn('Visitor presence:',e.message)}
+  }
+ }
+ presenceChannel.subscribe(status=>{
+  if(status==='SUBSCRIBED'){joined=true;updatePresence()}
+ });
+ document.addEventListener('visibilitychange',updatePresence);
+ window.addEventListener('pagehide',()=>{try{presenceChannel.untrack()}catch(_){}});
+})();
