@@ -1,6 +1,6 @@
 const CONFIG = {
   whatsappNumber: "21263225995",
-  instagramUsername: "casalux_03",
+  instagramUsername: "hermano______",
   address: "Boulevard Ahmed Ahrass, Sidi Bernoussi, Casablanca, Maroc",
   hours: { days: "7J/7", opens: "10:00", closes: "00:00" },
   deliveryZones: [
