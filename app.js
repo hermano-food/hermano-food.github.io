@@ -1,6 +1,7 @@
 const CONFIG = {
   whatsappNumber: "21263225995",
   instagramUsername: "hermano______",
+  instagramUrl: "https://www.instagram.com/hermano______?fqnt=MXRlYmYzM2IzYmJq",
   address: "Boulevard Ahmed Ahrass, Sidi Bernoussi, Casablanca, Maroc",
   hours: { days: "7J/7", opens: "10:00", closes: "00:00" },
   deliveryZones: [
@@ -77,7 +78,7 @@ function applyConfig(){
  if(links[0])links[0].href=phoneLink;
  if(links[1])links[1].href=locationLink;
  if(links[2])links[2].href="https://wa.me/"+CONFIG.whatsappNumber;
- if(links[3])links[3].href="https://ig.me/m/"+CONFIG.instagramUsername;
+ if(links[3])links[3].href=CONFIG.instagramUrl;
 }
 
 async function loadProductsFromSupabase(){
@@ -126,7 +127,7 @@ function renderProducts(){
  const container=$("products");
  if(active==="PROMO HERMANO"){
   const panel=document.createElement("article");panel.className="promo-panel";
-  panel.innerHTML='<p class="eyebrow">OFFRE SPÉCIALE HERMANO</p><h2>PROMO <em>HERMANO</em></h2><div class="promo-price">1 DH</div><p><strong>Avant de réserver : suis HERMANO sur Instagram.</strong> Le Follow est obligatoire pour profiter de la promotion et sera vérifié par notre équipe.</p><p>1. Clique sur le bouton Instagram et abonne-toi à <strong>@'+CONFIG.instagramUsername+'</strong>.</p><p>2. Reviens ici, choisis ton produit, ton jour et ton heure.</p><p>3. Crée ton numéro de réservation puis envoie-le en DM à HERMANO. Nous vérifierons ton Follow avant de confirmer.</p><p>Un seul produit par client · Sur place uniquement · Sans livraison.</p><a class="promo-instagram-button promo-panel-instagram" href="https://www.instagram.com/'+CONFIG.instagramUsername+'/" target="_blank" rel="noopener">◎ SUIVRE HERMANO SUR INSTAGRAM ↗</a>'
+  panel.innerHTML='<p class="eyebrow">OFFRE SPÉCIALE HERMANO</p><h2>PROMO <em>HERMANO</em></h2><div class="promo-price">1 DH</div><p><strong>Avant de réserver : suis HERMANO sur Instagram.</strong> Le Follow est obligatoire pour profiter de la promotion et sera vérifié par notre équipe.</p><p>1. Clique sur le bouton Instagram et abonne-toi à <strong>@'+CONFIG.instagramUsername+'</strong>.</p><p>2. Reviens ici, choisis ton produit, ton jour et ton heure.</p><p>3. Crée ton numéro de réservation puis envoie-le en DM à HERMANO. Nous vérifierons ton Follow avant de confirmer.</p><p>Un seul produit par client · Sur place uniquement · Sans livraison.</p><a class="promo-instagram-button promo-panel-instagram" href="'+CONFIG.instagramUrl+'" target="_blank" rel="noopener">◎ SUIVRE HERMANO SUR INSTAGRAM ↗</a>'
   container.replaceChildren(panel);
   const savedKey="hermanoPromoLastReservation";
   const savedRaw=localStorage.getItem(savedKey);
