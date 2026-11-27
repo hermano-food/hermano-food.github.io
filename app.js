@@ -123,6 +123,19 @@ function setCategoryMenu(open){
 }
 const categoryToggle=$("categoryToggle");if(categoryToggle)categoryToggle.addEventListener("click",()=>setCategoryMenu(categoryToggle.getAttribute("aria-expanded")!=="true"));
 const promoAdButton=$("promoAdButton");if(promoAdButton)promoAdButton.addEventListener("click",()=>{active="PROMO HERMANO";renderFilters();renderProducts();$("menu").scrollIntoView({behavior:"smooth",block:"start"});});
+function optimizedProductImage(url){
+ if(!url)return url;
+ try{
+  const imageUrl=new URL(url);
+  if(imageUrl.hostname==="images.unsplash.com"){
+   imageUrl.searchParams.set("w","480");
+   imageUrl.searchParams.set("q","65");
+   imageUrl.searchParams.set("auto","format");
+   imageUrl.searchParams.set("fit","crop");
+  }
+  return imageUrl.href;
+ }catch(e){return url}
+}
 function renderProducts(){
  const container=$("products");
  if(active==="PROMO HERMANO"){
@@ -150,7 +163,7 @@ function renderProducts(){
   const form=document.createElement("form");form.className="promo-booking";form.hidden=true;
   products.filter(p=>p.promoEligible!==false).forEach(p=>{
    const card=document.createElement("article");card.className="promo-product";
-   const img=document.createElement("img");img.src=p.img;img.alt=p.name;img.loading="lazy";
+   const img=document.createElement("img");img.src=optimizedProductImage(p.img);img.alt=p.name;img.loading="lazy";img.decoding="async";img.fetchPriority="low";
    const info=document.createElement("div");info.className="promo-product-info";
    const name=document.createElement("h3");name.textContent=p.name;
    const cat=document.createElement("small");cat.textContent=p.cat;
@@ -275,7 +288,7 @@ function renderProducts(){
   const card=document.createElement("article");
   card.className="product";card.dataset.detail=p.id;card.tabIndex=0;card.setAttribute("role","button");card.setAttribute("aria-label","Voir "+p.name);
   const photo=document.createElement("div");photo.className="product-photo";
-  const productImage=document.createElement("img");productImage.className="product-photo-image";productImage.alt=p.name||"Produit";productImage.loading="lazy";
+  const productImage=document.createElement("img");productImage.className="product-photo-image";productImage.alt=p.name||"Produit";productImage.loading="lazy";productImage.decoding="async";productImage.fetchPriority="low";
   productImage.onerror=()=>{const fallback=document.createElement("div");fallback.className="photo-fallback";fallback.textContent="Photo indisponible";photo.replaceChildren(fallback)};
   if(p.img)productImage.src=p.img;else productImage.onerror();
   if(p.img)photo.append(productImage);
