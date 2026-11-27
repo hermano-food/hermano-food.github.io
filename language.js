@@ -1,6 +1,6 @@
 (()=>{"use strict";
 const translations={
-"Menu":"القائمة","Livraison":"التوصيل","Promo":"العروض","Contact":"اتصل بنا","Panier":"السلة",
+"POUTCHI":"بوتشي","TACOS":"تاكوس","SUPPLÉMENTS":"إضافات","TOUT":"الكل","Préparé avec soin par HERMANO.":"يُحضّر بعناية من هيرمانو.","Généreux et savoureux.":"وجبة سخية ولذيذة.","Croustillant à chaque bouchée.":"قرمشة في كل لقمة.","Poulet tendre et gourmand.":"دجاج طري وشهي.","Une recette pleine de caractère.":"وصفة غنية بالنكهة.","Fondant et croustillant.":"طري ومقرمش.","Menu":"القائمة","Livraison":"التوصيل","Promo":"العروض","Contact":"اتصل بنا","Panier":"السلة",
 "LE GOÛT QUI RASSEMBLE":"المذاق الذي يجمعنا","Des envies généreuses. Des prix légers. Le plaisir signé HERMANO.":"وجبات شهية، وأسعار مناسبة، ومتعة من هيرمانو.",
 "Découvrir le menu":"اكتشف القائمة","OFFRE SPÉCIALE · HERMANO":"عرض خاص · هيرمانو","TA PROMO À":"عرضك بـ","Pour profiter de l’offre à 1 DH, suis d’abord HERMANO sur Instagram. Ensuite, choisis ton produit, réserve ton jour et ton heure, puis envoie ton numéro en DM.":"للاستفادة من العرض بـ 1 درهم، تابع هيرمانو على إنستغرام أولاً. ثم اختر المنتج وحدد اليوم والساعة وأرسل رقم الحجز في رسالة خاصة.",
 "◎ SUIVRE HERMANO SUR INSTAGRAM ↗":"◎ تابع هيرمانو على إنستغرام ↗","JE RÉSERVE MA PROMO ↗":"أحجز العرض الآن ↗",
