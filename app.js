@@ -1,5 +1,5 @@
 const CONFIG = {
-  whatsappNumber: "21263225995",
+  whatsappNumber: "212631595292",
   instagramUsername: "hermano______",
   instagramUrl: "https://www.instagram.com/hermano______?fqnt=MXRlYmYzM2IzYmJq",
   address: "Boulevard Ahmed Ahrass, Sidi Bernoussi, Casablanca, Maroc",
