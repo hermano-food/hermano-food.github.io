@@ -403,24 +403,22 @@ if(mobileMenuToggle&&mainNav){
 }
 
 
-/* Live visitors: Supabase Realtime Presence */
+/* Unique site visitors: count each browser once and keep the count permanently */
 (function(){
  if(!window.supabase?.createClient)return;
- const presenceClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLIC_KEY);
- const presenceKey=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'visitor-'+Date.now()+'-'+Math.random().toString(36).slice(2);
- const presenceChannel=presenceClient.channel('site-online-presence',{config:{presence:{key:presenceKey}}});
- let joined=false;
- async function updatePresence(){
-  if(!joined)return;
-  if(document.visibilityState==='visible'){
-   try{await presenceChannel.track({online:true,active_at:new Date().toISOString()})}catch(e){console.warn('Visitor presence:',e.message)}
-  }else{
-   try{await presenceChannel.untrack()}catch(e){console.warn('Visitor presence:',e.message)}
-  }
+ function makeVisitorId(){
+  if(window.crypto?.randomUUID)return window.crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+   const r=Math.random()*16|0;return (c==='x'?r:(r&0x3|0x8)).toString(16);
+  });
  }
- presenceChannel.subscribe(status=>{
-  if(status==='SUBSCRIBED'){joined=true;updatePresence()}
- });
- document.addEventListener('visibilitychange',updatePresence);
- window.addEventListener('pagehide',()=>{try{presenceChannel.untrack()}catch(_){}});
+ let visitorId;
+ try{
+  visitorId=localStorage.getItem('hermano-visitor-id');
+  if(!visitorId){visitorId=makeVisitorId();localStorage.setItem('hermano-visitor-id',visitorId);}
+ }catch(_){visitorId=makeVisitorId();}
+ const visitorClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLIC_KEY);
+ visitorClient.rpc('register_site_visitor',{p_visitor_id:visitorId})
+  .then(({error})=>{if(error)console.warn('Visitor counter:',error.message);})
+  .catch(error=>console.warn('Visitor counter:',error.message));
 })();
