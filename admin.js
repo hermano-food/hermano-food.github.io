@@ -1,16 +1,15 @@
 const SUPABASE_URL='https://nvaklosmrpfihrscwhwm.supabase.co';const KEY='sb_publishable_9jpoDKm4nXI_NVXvI1Q1kw_krb23Z11';const db=window.supabase.createClient(SUPABASE_URL,KEY);document.getElementById('forgotPassword')?.addEventListener('click',async()=>{const email=document.getElementById('email').value.trim();const button=document.getElementById('forgotPassword');const status=document.getElementById('loginMessage');if(!email){status.textContent='دخل الإيميل ديالك أولاً.';return;}button.disabled=true;status.textContent='كنصيفطو رابط الاسترجاع…';try{const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:'https://hermano-food.github.io/admin.html'});if(error)throw error;status.textContent='إلا كان الإيميل مسجل، غادي توصلك رسالة الاسترجاع. شوف Spam حتى هو.';}catch(error){status.textContent='ما قدرناش نصيفطو الرابط: '+(error?.message||'خطأ غير معروف');}finally{button.disabled=false;}});const $=id=>document.getElementById(id);const money=n=>(Number(n)||0).toLocaleString('fr-FR')+' DH';let allOrders=[],allPromos=[],allProducts=[],allDrivers=[],trackingMap=null,trackingLayer=null,trackingTimer=null,trackingBusy=false,dataRefreshTimer=null,dataRefreshBusy=false,knownOrderIds=null;const geocodeCache=new Map();const labels={pending:'En attente',confirmed:'Confirmée',preparing:'En préparation',out_for_delivery:'En livraison',delivered:'Livrée',cancelled:'Annulée'};const promoLabels={pending:'En attente',confirmed:'Confirmée',rejected:'Annulée',cancelled:'Annulée'};function msg(t){$('globalMessage').textContent=t||''}
-let onlinePresenceChannel=null;
-function startOnlineVisitors(){
- if(onlinePresenceChannel)return;
+let visitorCountTimer=null;
+async function startOnlineVisitors(){
  const count=$('onlineVisitorsCount');if(!count)return;
  count.textContent='…';
- onlinePresenceChannel=db.channel('site-online-presence');
- onlinePresenceChannel.on('presence',{event:'sync'},()=>{
-  const state=onlinePresenceChannel.presenceState();
-  count.textContent=String(Object.keys(state).length);
- }).subscribe(status=>{
-  if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')count.textContent='—';
- });
+ const refreshVisitorCount=async()=>{
+  const {data,error}=await db.rpc('get_site_visitor_count');
+  if(error){count.textContent='—';console.warn('Visitor count:',error.message);return;}
+  count.textContent=Number(data||0).toLocaleString('fr-FR');
+ };
+ await refreshVisitorCount();
+ if(!visitorCountTimer)visitorCountTimer=setInterval(refreshVisitorCount,30000);
 }
 
 const PUSH_VAPID_PUBLIC_KEY='BLxjMakR_fVbdx5EBqXt2mO4Dvt9kxkZ2LTlfPDArsEnGYlY486e2v_qPXX-FGYQCk5yib9EDVLg_AH-ROJQlEU';
